@@ -1,0 +1,29 @@
+{
+  "name": "millionaire",
+  "version": "1.0.0",
+  "description": "millionaire game DP",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harut17harut/millionaire.git"
+  },
+  "author": "Harut Melkonyan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harut17harut/millionaire/issues"
+  },
+  "homepage": "https://github.com/harut17harut/millionaire#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.12.4"
+  }
+}

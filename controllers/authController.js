@@ -15,7 +15,15 @@ class authController {
     }
     
 }
-
+static getById = async (id) => {
+    let data = await userModel.findAll({where:{id:id}});
+    if(data.length){
+        return data;
+    }
+    else{
+        return [];
+    }
+}
     static signin = async(req,res)=>{
         const errors = validationResult(req);
 
@@ -24,6 +32,7 @@ class authController {
             return res.status(400).json({ errors: errors.array() });
         }
         let user = await authController.getByUsername(req.body.username);
+        console.log(user);
         user = user[0];
         if(!user){
             return res.status(403).json({
@@ -36,7 +45,7 @@ class authController {
         
              if (isValid) {
                  let { JWT_SECRET } = process.env;
-                 let token = jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+                 let token = jwt.sign({id:user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
                  return res.status(200).json({
                      code: 200,
                      data: {
@@ -79,6 +88,21 @@ class authController {
         }
         else{
             return [];
+        }
+    }
+
+    static deleteUser = async(req,res)=>{
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        try {
+            let data = await userModel.destroy({where:{id:req.params.id}});
+            if (data) {
+                res.status(201).json({ message: `User with id:${req.params.id} deleted succesfully` })
+            }
+        } catch (error) {
+            res.json({ message: `Failed to Delete user with id:${req.params.id}` });
         }
     }
      

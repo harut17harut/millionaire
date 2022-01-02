@@ -10,11 +10,12 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       username: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        primaryKey:true
       },
       role_id: {
         type: Sequelize.INTEGER.UNSIGNED,

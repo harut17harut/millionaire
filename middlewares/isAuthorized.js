@@ -1,7 +1,7 @@
 let jwt = require("jsonwebtoken");
-let {authController} = require("../controllers/authController");
+let { authController } = require("../controllers/authController");
 module.exports = async (req, res, next) => {
-    
+
     const { authorization, accept } = req.headers;
     let errorMessage = [];
     if (!authorization) {
@@ -17,31 +17,43 @@ module.exports = async (req, res, next) => {
         errorMessage.push("header accepts only application/json");
     }
     if (errorMessage.length) {
-        
+
         return res.status(403).json({ message: errorMessage });
     }
     let bearerToken = authorization.split(' ')[1];
     if (bearerToken) {
-        
         try {
+            let err;
             let { JWT_SECRET } = process.env;
-            let data = jwt.verify(bearerToken, JWT_SECRET);
-            
+            let data;
+            jwt.verify(bearerToken, JWT_SECRET, (error, decoded) => {
+                if (error) {
+                    err = "Token has expired";
+                    return;
+                }
+                else{
+                    data = decoded;
+                }
+            });
+            if (err) {
+                return res.status(403).json({ message: err });
+                
+            }
+          
             if (data && data.hasOwnProperty('username')) {
                 let DBUser = await authController.getByUsername(data.username);
-                DBUser = DBUser[0];
-                console.log(!DBUser.hasOwnProperty("username"));
                 if (!DBUser) {
                     return res.status(403).json({ message: "A User of given token not found" });
                 }
                 req.body.userId = data.id;
                 req.body.username = data.username;
+                req.body.authorization = bearerToken;
                 return next();
             }
         }
         catch (error) {
             throw error
-         }
+        }
     }
     return res.status(403).json({ code: 403, message: "UNAUTHORIZED" });
 };

@@ -12,8 +12,8 @@ HOST=localhost
 JWT_SECRET=asdfasdf
 
 # Migrating and Seeding
-npx sequelize-cli migrate
-npx sequelize-cli seed:all
+npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
 
 # Running the project
 npm run dev

@@ -10,7 +10,7 @@ class dashController {
         return res.status(200).json(data);
     }
     static getAllQuestRandom = async () => {
-        let data = await questionsModel.findAll({ order: Sequelize.literal('rand()'),limit:3});
+        let data = await questionsModel.findAll({ order: Sequelize.literal('rand()'),limit:10});
         return data;
     }
     static getById = async (id) => {

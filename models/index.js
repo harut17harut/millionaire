@@ -30,8 +30,10 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+//User and scores table relations 1 to many
 db.user.hasMany(db.scores);
 db.scores.belongsTo(db.user);
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

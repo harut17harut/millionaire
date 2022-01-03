@@ -1,6 +1,7 @@
 
 const { body } = require('express-validator');
 let {authController} = require("../controllers/authController")
+//signup form fields validations
 const create = [
     body('name')
         .notEmpty().withMessage('Field is required')

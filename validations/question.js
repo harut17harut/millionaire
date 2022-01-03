@@ -1,6 +1,7 @@
 
 const { body,param } = require('express-validator');
 const { dashController } = require('../controllers/dashController');
+//question creation validations
 const create = [
     body('correct').notEmpty().withMessage('Field is required').isNumeric().withMessage("Please enter numeric value"),
     body('answers').notEmpty().withMessage('Field is required').isArray().notEmpty().withMessage("This value must be Array").custom(value => {
@@ -14,6 +15,7 @@ const create = [
         }),
     body('question').notEmpty().withMessage('Field is required')
 ];
+//find question by id for middleware checks
 const id = [
 param('id').custom(value => {
   return dashController.getById(value).then(user => {

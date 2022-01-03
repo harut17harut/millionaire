@@ -1,7 +1,7 @@
 let jwt = require("jsonwebtoken");
 let { authController } = require("../controllers/authController");
 module.exports = async (req, res, next) => {
-
+    //Header requirment checks
     const { authorization, accept } = req.headers;
     let errorMessage = [];
     if (!authorization) {
@@ -21,6 +21,7 @@ module.exports = async (req, res, next) => {
         return res.status(403).json({ message: errorMessage });
     }
     let bearerToken = authorization.split(' ')[1];
+    //Authorization token Validation
     if (bearerToken) {
         try {
             let err;
@@ -39,7 +40,7 @@ module.exports = async (req, res, next) => {
                 return res.status(403).json({ message: err });
                 
             }
-          
+          //Copare token data with DB
             if (data && data.hasOwnProperty('username')) {
                 let DBUser = await authController.getByUsername(data.username);
                 if (!DBUser) {
